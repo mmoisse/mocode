@@ -2,7 +2,10 @@ Package: mocode
 Title: Integrates MS-based-proteomics Data Analysis Code from PhD
 Version: 0.0.0.9000
 Authors@R: person("Moritz", "Heusel", email = "heusel@imsb.biol.ethz.ch", role = c("aut", "cre"))
-Description: Allows loading quantitative proteomics data from different result file types and processing.
-Depends: R (>= 3.2.4)
+Description: Allows loading quantitative proteomics data from different result
+    file types and processing.
+Depends:
+    R (>= 3.2.0)
 License: What license is it under?
 LazyData: true
+RoxygenNote: 5.0.1
