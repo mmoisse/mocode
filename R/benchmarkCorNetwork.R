@@ -55,7 +55,7 @@ benchmarkCorNetwork <- function(corNetwork, reference = "corum.txt", output = "p
 
   # plot trainingset corr score density distributions
   if (output == "pdf_csv"){
-    pdf(paste0("trainingset_corrscoredensities_",netname, refname, ".pdf"), width = 12, height = 5.5)
+    pdf(paste0("ReferenceSetScoresDensities_",netname, refname, ".pdf"), width = 12, height = 5.5)
   }
   pearson_dens <- ggplot(as.data.frame(trainingset), aes(x = cor_pearson, color = true_interaction)) +
   geom_density() + theme_bw()
