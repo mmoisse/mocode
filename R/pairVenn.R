@@ -39,7 +39,8 @@ pairVenn <- function(a, b, output = "R"){
   anb <- intersect(ua, ub)
   aonly <- ua[!(ua %in% anb)]
   bonly <- ub[!(ub %in% anb)]
-  list(namea = aonly,
-       in_both = anb,
-       nameb = bonly)
+  groups <- list(aonly,
+       anb,
+       bonly)
+
 }
