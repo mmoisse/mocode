@@ -2,14 +2,17 @@
 #' with all proteins connected by 1 edge (first degree interactors)
 #' @import data.table
 #' @import doSNOW
+#' @import parallel
+#' @import snow
 #' @param interaction_table Interaction network in edge table format (data.frame)
 #' @param id_column_1 Name of the column containing protein identifier #1
 #' @param id_column_2 Name of the column containing protein identifier #2
 #' @return A data.frame containing group name (seed node name) and its first line interactors
 #' e.g. for use as "complex hypotheses" for  
 #' @export
+#' @author Moritz Heusel
 
-createGroupsFromNetworkTable <- function(interaction_table, n.cores = detectCores()-1 , id_column_1 = "UniprotA", id_column_2 = "UniprotB"){
+createGroupsFromNetworkTable <- function(interaction_table, n.cores = parallel::detectCores()-1 , id_column_1 = "UniprotA", id_column_2 = "UniprotB"){
   # helper function to filter for the first line interactors of one protein
   filterInteractors<- function(protein_id, network_table, prot_a_colid = id_column_1, prot_b_colid = id_column_2){
 	# uniprot<-gene_uniprot_map[gene_uniprot_map[,1] %in% genename,2]
