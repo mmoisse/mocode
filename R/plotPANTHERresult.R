@@ -1,7 +1,14 @@
-# plot enrichment graphs
-library(data.table)
-library(ggplot2)
-library(ggrepel)
+#' Plot PantherDB enrichment/overrepresentation test result
+#' @description Plot PantherDB enrichment/overrepresentation test result
+#' @import data.table
+#' @import ggplot2
+#' @import ggrepel
+#' @param PANTHERresult Panther result table path to .txt or data.table
+#' @param p_cutoff Significance Cutoff for labelling the found terms in the plots 
+#' @return A list of 1) the reformatted data.table, 2) scatter plot 3) barplot
+#' @examples
+#' plotPANTHERresult("panther_gocc.txt", p_cutoff = 0.05)
+#' @export
 
 plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
                               p_cutoff = 0.05){
@@ -40,7 +47,7 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
                             gsub(" ", "_", category))
   
   result <- result[term != "Unclassified (UNCLASSIFIED)"]
-  result[, enrichment:=as.numeric(paste0(`over_under`, fold_Enrichment))]
+  result[, enrichment:=as.numeric(1-fold_Enrichment)]
   setorder(result, -enrichment)
   result <- result[!(is.na(enrichment))]
   result[, term_lean:=gsub(" \\(.*\\)", "", term)]$term_lean
@@ -48,7 +55,7 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
   pdf(paste0(comparison_name, "_enrichment_scatter.pdf"), height = 5, width = 5)
   p = ggplot(result, aes(enrichment, -log10(P_value), label = term_lean, color = term_lean)) +
     geom_point(aes(size = in_list)) + geom_text_repel(data = result[P_value <= p_cutoff]) + theme_bw() + theme(legend.position = "none") +
-    geom_vline(xintercept = 0, linetype = 2, color = "grey") + 
+    geom_vline(xintercept = 0, linetype = 1, size = 1, color = "black") + 
     geom_hline(yintercept = -log10(p_cutoff), linetype = 2, color = "grey")  +
     ggtitle(comparison_name)
   plot(p)
@@ -61,9 +68,9 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
     theme_bw() +
     theme(legend.position = "none") +
     scale_fill_continuous(low = "red", high = "blue") +
-    geom_hline(yintercept = 0, linetype = 2) +
+    geom_hline(yintercept = 0, linetype = 1, size = 1, color = "black") +
     xlab(unique(result$category)) +
-    ylab("fold enrichment")
+    ylab("enrichment")
   plot(q)
   dev.off()
   
