@@ -7,3 +7,4 @@
 *.tsv
 *.pdf
 data/*
+./testdata/*testdata.zip
