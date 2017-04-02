@@ -47,6 +47,7 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
                             gsub(" ", "_", category))
   
   result <- result[term != "Unclassified (UNCLASSIFIED)"]
+  result[, fold_Enrichment:=as.numeric(gsub("< ", "", fold_Enrichment))]
   result[, enrichment:=as.numeric(1-fold_Enrichment)]
   setorder(result, -enrichment)
   result <- result[!(is.na(enrichment))]
