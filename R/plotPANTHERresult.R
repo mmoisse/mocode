@@ -12,6 +12,7 @@
 
 plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
                               p_cutoff = 0.05){
+  library(data.table)
   # define input
   if(class(PANTHERresult) == "character"){
     result <- fread(PANTHERresult)
