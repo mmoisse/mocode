@@ -1,10 +1,11 @@
 .Rproj.user
 .Rhistory
 .RData
-
 *.txt
 *.csv
 *.tsv
 *.pdf
+*.zip
 data/*
-./testdata/*testdata.zip
+./testdata/*
+testdata.zip
