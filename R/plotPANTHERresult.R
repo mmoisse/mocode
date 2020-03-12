@@ -15,7 +15,12 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
   library(data.table)
   # define input
   if(class(PANTHERresult) == "character"){
-    result <- fread(PANTHERresult)
+    
+    f = readLines(PANTHERresult, n = 20)
+    f = gsub("\t.*", "", f)
+    f = which(!grepl(":$", f) & f != "")[1]-1
+    
+    result <- fread(PANTHERresult, skip=f)
   }
   
   # processing
