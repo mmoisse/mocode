@@ -25,7 +25,7 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
   setnames(result, list, "in_list")
   setnames(result, category, "term")
   setnames(result, reflist, "in_reflist")
-  result$category <- category 
+  result$category <- category
   
   # clean up column names
   list <- strsplit(list, split = " ")[[1]][1]
@@ -35,6 +35,8 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
   names(result) <- gsub(" ", "_", names(result))
   names(result) <- gsub("\\-", "_", names(result))
   names(result) <- gsub("\\/", "_", names(result))
+  
+  setnames(result, "raw_P_value", "P_value")
   
   # add list info columns
   result$list = list
@@ -48,7 +50,7 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
                             gsub(" ", "_", category))
   
   result <- result[term != "Unclassified (UNCLASSIFIED)"]
-  result[, fold_Enrichment:=as.numeric(gsub("< ", "", fold_Enrichment))]
+  result[, fold_Enrichment:=as.numeric(gsub("< |> ", "", fold_Enrichment))]
   result[, enrichment:=as.numeric(fold_Enrichment-1)]
   setorder(result, -enrichment)
   result <- result[!(is.na(enrichment))]
