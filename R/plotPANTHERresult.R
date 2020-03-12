@@ -11,7 +11,7 @@
 #' @export
 
 plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
-                              p_cutoff = 0.05, terms=""){
+                              p_cutoff = 0.05, terms="", show_all=T){
   library(data.table)
   # define input
   if(class(PANTHERresult) == "character"){
@@ -60,6 +60,10 @@ plotPANTHERresult <- function(PANTHERresult = "panther_gocc.txt",
   setorder(result, -enrichment)
   result <- result[!(is.na(enrichment))]
   result[, term_lean:=gsub(" \\(.*\\)", "", term)]$term_lean
+  
+  if(!show_all) {
+    result = result[P_value <= p_cutoff | term_lean %in% terms]
+  }
   
   pdf(paste0(comparison_name, "_enrichment_scatter.pdf"), height = 5, width = 5)
   p = ggplot(result, aes(enrichment, -log10(P_value), label = term_lean, color = term_lean)) +
